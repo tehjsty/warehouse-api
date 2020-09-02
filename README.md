@@ -44,7 +44,7 @@ Ein Artikel hat folgende Struktur und Constraints:
 
 
 #### Alle Artikel Listen
-*GET* http://localhost:3000/article?&articleNumber=<articleNumber>&name=<name>&description=<description> \
+*GET* http://localhost:3000/article?&articleNumber=[articleNumber]&name=[name]&description=[description] \
 *Returns*: Liste von Artikeln \
 *Beschreibung*: Query Parameter articleNumber, name, description dienen als Filter und können auch weggelassen werden 
 
@@ -74,5 +74,5 @@ Ein Artikel hat folgende Struktur und Constraints:
 Datensatz angelegt.
 
 #### Einen Artikel löschen
-*DELETE* http://localhost:3000/article/<articleNumber>
+*DELETE* http://localhost:3000/article/<articleNumber> \
 *Returns*: void
