@@ -1,3 +1,4 @@
 export default {
-    jwtSecret: "integra"
+    jwtSecret: "integra",
+    auth: true
 };
