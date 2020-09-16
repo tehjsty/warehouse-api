@@ -54,6 +54,10 @@ export class ArticleController {
 				res.status(200).send(newArticle);
 			}).catch(e => {
 				const err = new ErrorResponse(e);
+				if(e.code && e.code === 'ER_DUP_ENTRY'){
+					err.status = 409;
+				}
+
 				res.status(err.status).send(e);
 			});
 		} else {
