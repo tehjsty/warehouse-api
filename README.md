@@ -48,6 +48,20 @@ Ein Artikel hat folgende Struktur und Constraints:
 *Returns*: Liste von Artikeln \
 *Beschreibung*: Query Parameter articleNumber, name, description dienen als Filter und können auch weggelassen werden 
 
+#### Alle Artikel listen mit Pagination
+*GET* http://localhost:3000/article/pagination?&articleNumber=[articleNumber]&name=[name]&description=[description]&entriesPerPage=[entriesPerPage]&page=[page] \
+*Returns*: 
+```
+{
+    "data": Article[],
+    "page": number,             // startet bei 0
+    "totalPages": number,
+    "entriesPerPage": number,
+    "totalEntries": number
+}
+```
+*Beschreibung*: Gleiche Möglichkeiten, wie bei der einfachen Artikellistung, nur mit Pagination
+ 
 #### Einen einzelnen Artikel abrufen
 *GET* http://localhost:3000/article/<articleNumber> \
 *Returns*: Einen Artikel

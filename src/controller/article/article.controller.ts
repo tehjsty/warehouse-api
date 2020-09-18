@@ -3,6 +3,9 @@ import {ErrorResponse} from "../error/ErrorResponse";
 import {ArticleService} from "../../service/article/article.service";
 import {ArticleDto} from "./dto/ArticleDto";
 import {Like} from "typeorm";
+import {MiscService} from "../../service/misc.service";
+import {Article} from "../../entity/article/Article";
+import {PaginationDto} from "../shared/dto/PaginationDto";
 
 export class ArticleController {
 
@@ -25,6 +28,43 @@ export class ArticleController {
 			const err = new ErrorResponse(e);
 			res.status(err.status).send(err.message);
 		});
+	};
+
+	static getAllWithPagination = async (req: Request, res: Response) => {
+		//Get parameters from the body
+		const filter: any = {};
+		if(req.query.articleNumber){
+			filter.articleNumber = Like(`%${req.query.articleNumber}%`)
+		}
+		if(req.query.name){
+			filter.name = Like(`%${req.query.name}%`)
+		}
+		if(req.query.description){
+			filter.name = Like(`%${req.query.description}%`)
+		}
+		const entriesPerPage: number = +req.query.entriesPerPage;
+		const page: number = +req.query.page;
+		if(!isNaN(entriesPerPage) && entriesPerPage > 0 && !isNaN(page)){
+			const service: ArticleService = new ArticleService();
+			service.findAll(filter).then((articles) => {
+				const pages = MiscService.chunkArray(articles, entriesPerPage);
+				const pagination: PaginationDto<Article> = new PaginationDto<Article>(
+					(pages[page] ? pages[page] : []),
+					page,
+					pages.length,
+					entriesPerPage,
+					articles.length
+				)
+				res.status(200).send(pagination);
+			}, e => {
+				const err = new ErrorResponse(e);
+				res.status(err.status).send(err.message);
+			});
+		} else {
+			const err = new Error('No pagination information provided');
+			res.status(400).send(err);
+		}
+
 	};
 
 	static getByArticleNumber = async (req: Request, res: Response) => {
