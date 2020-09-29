@@ -19,7 +19,7 @@ export class ArticleController {
 			filter.name = Like(`%${req.query.name}%`)
 		}
 		if(req.query.description){
-			filter.name = Like(`%${req.query.description}%`)
+			filter.description = Like(`%${req.query.description}%`)
 		}
 		const service: ArticleService = new ArticleService();
 		service.findAll(filter).then((articles) => {
